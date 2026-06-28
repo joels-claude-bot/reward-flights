@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@rspress/core": "^2.0.14",
-    "rspress-plugin-mermaid": "^1.0.1"
+    "d3-geo": "^3.1.1",
+    "rspress-plugin-mermaid": "^1.0.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^22.8.1",

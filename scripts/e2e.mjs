@@ -90,20 +90,25 @@ ok('appendix excludes Amex partner British Airways from "other"', !appendixBody.
 await page.goto(`${BASE}/when-to-book`, { waitUntil: 'networkidle' });
 ok('when-to-book timeline diagram rendered', await diagramRendered('SCHEDULE OPENS'));
 
-// 5. Destinations: interactive map component renders and switching airlines updates routes.
-// (Asserts on route-code text, not the gcmap image, so it passes with or without outbound net.)
+// 5. Destinations: self-contained SVG map renders, switches airline, has an "All" view.
 await page.goto(`${BASE}/destinations`, { waitUntil: 'networkidle' });
-await page.waitForSelector('text=Routes:');
-const firstCodes = await page.locator('p:has-text("Routes:") code').textContent();
-ok('destination map shows Virgin routes', firstCodes.includes('LHR-JFK'));
+await page.waitForSelector('svg[aria-label^="Map of destinations"]');
+const mapSel = 'svg[aria-label^="Map of destinations"]';
+const countryPaths = await page.locator(`${mapSel} path`).count();
+ok('world map rendered (country paths)', countryPaths > 100, `${countryPaths} paths`);
+const virginLines = await page.locator(`${mapSel} line`).count();
+ok('Virgin routes drawn as lines', virginLines >= 4, `${virginLines} lines`);
+ok('default shows Virgin route codes', (await page.locator('p:has-text("Routes:") code').textContent()).includes('LHR-JFK'));
+// switch airline → route codes update
 await page.getByRole('button', { name: 'Qatar Airways' }).click();
 await page.waitForTimeout(200);
-const secondCodes = await page.locator('p:has-text("Routes:") code').textContent();
-ok('map updates when airline changes', firstCodes !== secondCodes && secondCodes.includes('DOH'), `now: ${secondCodes}`);
-// the gcmap <img> should be requested, or the graceful fallback shown if it can't load
-const imgCount = await page.locator('img[alt^="Map of sweet-spot routes"]').count();
-const fallbackCount = await page.getByText('Map preview couldn').count();
-ok('gcmap image element or fallback present', imgCount + fallbackCount > 0, `img:${imgCount} fallback:${fallbackCount}`);
+ok('map updates when airline changes', (await page.locator('p:has-text("Routes:") code').textContent()).includes('DOH'));
+// "All Amex UK partners" view overlays every partner's routes
+await page.getByRole('button', { name: /All Amex UK partners/ }).click();
+await page.waitForTimeout(200);
+const allLines = await page.locator(`${mapSel} line`).count();
+ok('All-partners view overlays many routes', allLines > virginLines, `${allLines} lines`);
+ok('All-partners blurb shown', (await page.textContent('body')).includes('Every sweet-spot route across all 11'));
 
 // 6. Calculator still interactive
 await page.goto(`${BASE}/expected-value`, { waitUntil: 'networkidle' });
