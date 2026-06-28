@@ -1,0 +1,58 @@
+---
+title: Expected value & the calculator
+---
+
+import PointValueCalculator from '../components/PointValueCalculator';
+
+# Expected value: pence per point
+
+The single number that decides every redemption is **pence per point (p/point)** — how
+much cash value each Membership Rewards (MR) point delivers in *this* booking.
+
+> **p/point = (cash price of the flight − taxes & fees you still pay) × 100 ÷ MR points spent**
+
+You subtract the taxes and fees because you pay those in cash *either way* — they aren't
+value your points bought.
+
+## The calculator
+
+Pick the airline, enter the miles the award needs, the cash price of the same flight, and
+the cash taxes/fees on the reward booking. It converts miles back into the MR points
+required (using the [transfer ratio](/transfer-partners)) and grades the result.
+
+<PointValueCalculator />
+
+## What's a good number?
+
+| p/point | Verdict | What it means |
+| --- | --- | --- |
+| **< 1.0p** | Poor — keep the points | Cash (or a cashback card) would do better. |
+| **1.0–1.5p** | Fair / baseline | The rough "floor" value of an MR point. Fine, not exciting. |
+| **1.5–2.0p** | Good | A solid redemption — most economy long-haul and short-haul sweet spots land here. |
+| **> 2.0p** | Excellent | Premium-cabin long-haul, where cash fares are huge. This is the whole game. |
+
+:::tip The premium-cabin multiplier
+Points shine where **cash prices are irrational** — business and first class long-haul.
+A £6,000 cash business fare booked for ~120k points + £400 fees is ~4.7p/point. The same
+points spent on a £400 economy hop is ~0.3p/point. **Spend points where cash hurts most.**
+:::
+
+## Worked example
+
+Holdaisy wants London → New York in business class:
+
+- Cash price: **£3,200**
+- Award: **100,000 Avios + £500 taxes/fees** (1 MR : 1 Avios → 100,000 MR points)
+- Value captured: £3,200 − £500 = **£2,700**
+- p/point: £2,700 × 100 ÷ 100,000 = **2.70p/point** → *Excellent — book it.*
+
+The same trip in economy at £450 cash vs 50,000 Avios + £200 fees is
+(£450 − £200) × 100 ÷ 50,000 = **0.50p/point** → *poor; pay cash and keep the points.*
+
+## Don't forget the other side of EV
+
+p/point measures the *upside*. The honest expected value also weighs:
+
+- **Probability the seat exists** when you want it (see [Finding award seats](/finding-flights)).
+- **Devaluation risk** — points sitting unused can lose value overnight (see [When to book](/when-to-book)).
+- **Effort** — a 0.1p/point edge that costs an evening of searching usually isn't worth it.
